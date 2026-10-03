@@ -1,6 +1,6 @@
 <div align="center">
   <img src="./images/logo.webp" alt="VS Code Logo" width="300">
-  <h1>Aplikasi <strong>code-server</strong></h1>
+  <h1>Aplikasi code-server</h1>
   <nav aria-label="Navigation">
     <a href="#sekilas-tentang">Sekilas Tentang</a> |
     <a href="#instalasi">Instalasi</a> |
