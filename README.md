@@ -6,6 +6,7 @@
     <a href="#instalasi">Instalasi</a> |
     <a href="#opsi-akses">Opsi Akses</a> |
     <a href="#konfigurasi">Konfigurasi</a> |
+    <a href="#maintenance">Maintenance</a> |
     <a href="#otomatisasi">Otomatisasi</a> |
     <a href="#cara-pemakaian">Cara Pemakaian</a> |
     <a href="#pembahasan">Pembahasan</a> |
@@ -194,31 +195,120 @@ URL tetap, HTTPS, dan tunnel berjalan otomatis sebagai layanan. Pada VirtualBox 
 
 6. Buka `https://code.namaanda.eu.org` dan masukkan password.
 
-## Konfigurasi (opsional)
+## Konfigurasi
 
-Setting server tambahan yang diperlukan untuk meningkatkan fungsi dan kinerja aplikasi, misalnya:
-- batas upload file
-- batas memori
-- dll
+### Batas memori
 
-Plugin untuk fungsi tambahan
-- login dengan Google/Facebook
-- editor Markdown
-- dll
+code-server tidak memiliki pengaturan batas memori sendiri, sehingga batasnya dipasang lewat *systemd*:
+
+```bash
+sudo systemctl edit code-server@$USER
+```
+
+Isi dengan:
+
+```ini
+[Service]
+MemoryMax=<BATAS-MEMORI> # Contoh 1G
+```
+
+Simpan, lalu terapkan:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart code-server@$USER
+```
+
+### Ekstensi
+
+Plugin pada code-server berupa ekstensi VS Code yang diambil dari registry [Open VSX](https://open-vsx.org), sehingga sebagian ekstensi dari Microsoft Marketplace tidak tersedia. Ekstensi dapat dipasang lewat panel **Extensions** atau CLI:
+
+```bash
+code-server --install-extension yzhang.markdown-all-in-one
+code-server --list-extensions
+```
+
+## Maintenance
+
+code-server tidak menggunakan database. Program code-server dapat dipasang
+ulang dengan skrip instalasi. Hal yang perlu di-*backup* adalah
+konfigurasi, ekstensi, dan folder proyek.
+
+### Backup konfigurasi, ekstensi, dan proyek
+
+Buat skrip `~/backup-code-server.sh` berikut. Ganti nilai `PROJECT_DIR` jika
+nama folder proyek di home berbeda:
+
+```bash
+#!/bin/bash
+BACKUP_DIR="$HOME/backup"
+PROJECT_DIR="project"
+mkdir -p "$BACKUP_DIR"
+
+tar -czf "$BACKUP_DIR/code-server-$(date +%F).tar.gz" \
+  -C "$HOME" .config/code-server .local/share/code-server "$PROJECT_DIR"
+```
+Selanjutnya, hapus file *backup* yang sudah lebih dari 28 hari (angka ini dapat disesuaikan dengan keinginan)
+```bash
+find "$BACKUP_DIR" -name 'code-server-*.tar.gz' -mtime +28 -delete
+```
+
+Beri izin eksekusi pada skrip:
+
+```bash
+chmod +x ~/backup-code-server.sh
+```
+
+Pastikan folder proyek sudah ada sebelum skrip dijalankan karena `tar` akan
+gagal jika folder tersebut tidak ditemukan. Jadwalkan backup setiap Minggu
+pukul 02.00 dengan `crontab -e`:
+
+```cron
+0 2 * * 0 /home/<username>/backup-code-server.sh
+```
+
+Untuk memulihkan konfigurasi, jalankan kembali skrip instalasi code-server,
+lalu ekstrak arsip backup ke home:
+
+```bash
+tar -xzf code-server-<tanggal>.tar.gz -C ~
+```
+
+### Pembersihan log (harian)
+
+Gunakan `sudo crontab -e` untuk menambahkan pembersihan journal setiap hari
+pukul 03.00. Perintah ini menyimpan log selama 14 hari terakhir:
+
+```cron
+0 3 * * * /usr/bin/journalctl --vacuum-time=14d
+```
+
+* Jadwal CRON dapat diganti sesuai keinginan. Panduan terkait *syntax* CRON dapat diakses [di sini](https://docs.gitlab.com/topics/cron/)
+
+### Pembaruan dan pemantauan
+
+Perbarui sistem secara berkala, lalu periksa status layanan dan log
+code-server:
+
+```bash
+sudo apt update && sudo apt upgrade -y
+systemctl status code-server@$USER
+journalctl -u code-server@$USER -n 50
+```
+
+Jika muncul pesan *System restart required*, jalankan `sudo reboot`.
+**code-server** akan aktif kembali secara otomatis karena layanannya sudah
+di-*enable* melalui systemd.
 
 
-## Maintenance (opsional)
+## Otomatisasi
+Terdapat cara alternatif yang lebih mudah untuk melakukan instalasi aplikasi, yakni menggunakan script shell yang otomatis akan menjalankan semua perintah instalasi pada terminal. Script shell yang dapat digunakan adalah [install.sh](install.sh)
 
-Setting tambahan untuk maintenance secara periodik, misalnya:
-- buat backup database tiap pekan
-- hapus direktori sampah tiap hari
-- dll
-
-
-## Otomatisasi (opsional)
-
-Skrip shell untuk otomatisasi instalasi, konfigurasi, dan maintenance.
-
+Cara pemakaian skrip adalah sebagai berikut.
+```bash
+chmod +x install.sh
+./install.sh
+```
 
 ## Cara Pemakaian
 
@@ -240,3 +330,7 @@ Skrip shell untuk otomatisasi instalasi, konfigurasi, dan maintenance.
 1. https://coder.com/docs/code-server/install
 2. https://github.com/coder/code-server
 3. https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/
+4. https://developers.cloudflare.com/cloudflare-one/applications/
+5. https://developers.cloudflare.com/cloudflare-one/identity/idp-integration/google/
+6. https://docs.gitlab.com/topics/cron/
+7. https://open-vsx.org

@@ -1,5 +1,4 @@
 #!/bin/bash
-# install.sh - Instalasi otomatis code-server di Ubuntu/Debian
 set -e
 
 if [ "$EUID" -eq 0 ]; then
@@ -11,7 +10,7 @@ PORT=8080
 
 echo "Pilih cara akses:"
 echo "  1) Lokal (localhost / port forwarding VirtualBox)"
-echo "  2) Cloudflare Tunnel (quick tunnel, URL sementara)"
+echo "  2) Cloudflare Tunnel (Quick Tunnel, URL sementara)"
 echo "  3) Domain sendiri (named tunnel Cloudflare)"
 read -rp "Pilihan [1/2/3]: " MODE
 case "$MODE" in
@@ -37,6 +36,16 @@ case "$PASSWORD" in
   *\"*|*\\*) echo 'Password tidak boleh mengandung tanda " atau \.'; exit 1 ;;
 esac
 
+read -rp "Batas memori (contoh 1G, kosongkan untuk melewati): " MEMLIMIT
+
+read -rp "Jadwalkan backup mingguan? [y/N]: " DO_BACKUP
+if [ "${DO_BACKUP,,}" = "y" ]; then
+  read -rp "Nama folder proyek di home [project]: " PROJECT_DIR
+  PROJECT_DIR=${PROJECT_DIR:-project}
+fi
+
+read -rp "Jadwalkan pembersihan log harian? [y/N]: " DO_LOG
+
 install_cloudflared() {
   ARCH=$(dpkg --print-architecture)   # amd64 atau arm64
   curl -fL -o /tmp/cloudflared.deb \
@@ -45,18 +54,18 @@ install_cloudflared() {
   rm -f /tmp/cloudflared.deb
 }
 
-echo "[1/5] Memperbarui sistem..."
+echo "[1/6] Memperbarui sistem..."
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y curl
 
-echo "[2/5] Memasang code-server..."
+echo "[2/6] Memasang code-server..."
 curl -fsSL https://code-server.dev/install.sh | sh
 
-echo "[3/5] Mengaktifkan layanan..."
+echo "[3/6] Mengaktifkan layanan..."
 sudo systemctl enable --now code-server@$USER
 sleep 5   # beri waktu agar file konfigurasi default dibuat
 
-echo "[4/5] Menulis konfigurasi..."
+echo "[4/6] Menulis konfigurasi..."
 if [ "$MODE" = "1" ]; then
   BIND="0.0.0.0"
 else
@@ -69,9 +78,18 @@ auth: password
 password: "${PASSWORD}"
 cert: false
 EOF
+
+if [ -n "$MEMLIMIT" ]; then
+  sudo mkdir -p /etc/systemd/system/code-server@${USER}.service.d
+  sudo tee /etc/systemd/system/code-server@${USER}.service.d/override.conf > /dev/null <<EOF
+[Service]
+MemoryMax=${MEMLIMIT}
+EOF
+  sudo systemctl daemon-reload
+fi
 sudo systemctl restart code-server@$USER
 
-echo "[5/5] Menyiapkan akses..."
+echo "[5/6] Menyiapkan akses..."
 case "$MODE" in
   1)
     if sudo ufw status | grep -q "Status: active"; then
@@ -79,7 +97,7 @@ case "$MODE" in
     fi
     IP=$(hostname -I | awk '{print $1}')
     echo
-    echo "Selesai. code-server berjalan di ${IP}:${PORT}."
+    echo "code-server berjalan di ${IP}:${PORT}."
     if echo "$IP" | grep -q '^10\.0\.2\.'; then
       echo
       echo "Terdeteksi VirtualBox mode NAT (IP ${IP})."
@@ -95,7 +113,7 @@ case "$MODE" in
   2)
     install_cloudflared
     echo
-    echo "Selesai. Jalankan tunnel dengan perintah:"
+    echo "Jalankan Quick Tunnel dengan perintah:"
     echo "  cloudflared tunnel --url http://localhost:${PORT}"
     echo "Lalu buka URL https://....trycloudflare.com yang muncul."
     ;;
@@ -127,6 +145,46 @@ ingress:
 EOF
     sudo cloudflared service install
     echo
-    echo "Selesai. Buka: https://${HOSTNAME_CF}"
+    echo "Buka: https://${HOSTNAME_CF}"
     ;;
 esac
+
+echo "[6/6] Menyiapkan maintenance..."
+
+if [ "${DO_BACKUP,,}" = "y" ]; then
+  mkdir -p ~/"$PROJECT_DIR"
+
+  # Skrip backup mingguan
+  cat > ~/backup-code-server.sh <<EOS
+#!/bin/bash
+BACKUP_DIR="\$HOME/backup"
+PROJECT_DIR="${PROJECT_DIR}"
+mkdir -p "\$BACKUP_DIR"
+
+tar -czf "\$BACKUP_DIR/code-server-\$(date +%F).tar.gz" \\
+  -C "\$HOME" .config/code-server .local/share/code-server "\$PROJECT_DIR"
+
+# Hapus backup yang lebih lama dari 28 hari.
+find "\$BACKUP_DIR" -name 'code-server-*.tar.gz' -mtime +28 -delete
+EOS
+  chmod +x ~/backup-code-server.sh
+
+  # Jadwal backup: setiap Minggu pukul 02.00 (cron milik user)
+  ( crontab -l 2>/dev/null | grep -v 'backup-code-server.sh' || true
+    echo "0 2 * * 0 $HOME/backup-code-server.sh" ) | crontab -
+  echo "Backup mingguan dijadwalkan (Minggu pukul 02.00)."
+else
+  echo "Backup mingguan dilewati."
+fi
+
+if [ "${DO_LOG,,}" = "y" ]; then
+  # Jadwal pembersihan log: setiap hari pukul 03.00 (cron milik root)
+  ( sudo crontab -l 2>/dev/null | grep -v 'journalctl --vacuum-time' || true
+    echo "0 3 * * * /usr/bin/journalctl --vacuum-time=14d" ) | sudo crontab -
+  echo "Pembersihan log harian dijadwalkan (pukul 03.00)."
+else
+  echo "Pembersihan log harian dilewati."
+fi
+
+echo
+echo "Selesai. Cek jadwal dengan: crontab -l  dan  sudo crontab -l"
