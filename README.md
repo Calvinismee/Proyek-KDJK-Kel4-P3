@@ -215,6 +215,26 @@ journalctl -u code-server@$USER -n 50
 Jika muncul pesan *System restart required*, jalankan `sudo reboot`.
 **code-server** akan aktif kembali secara otomatis karena layanannya sudah
 di-*enable* melalui systemd.
+
+## Otomatisasi
+Terdapat cara alternatif yang lebih mudah untuk melakukan instalasi aplikasi, yakni menggunakan script shell yang otomatis akan menjalankan semua perintah instalasi pada terminal. Script shell yang dapat digunakan adalah [install.sh](install.sh)
+
+Cara pemakaian skrip adalah sebagai berikut.
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+## Cara Pemakaian
+- Tampilan aplikasi web
+- Fungsi-fungsi utama
+- Isi dengan data real/dummy (jangan kosongan) dan sertakan beberapa screenshot
+
+## Pembahasan
+- Pendapat anda tentang aplikasi web ini
+  - kelebihan
+  - kekurangan
+- Bandingkan dengan aplikasi web lain yang sejenis
  
 ## Referensi
 1. https://coder.com/docs/code-server/install
