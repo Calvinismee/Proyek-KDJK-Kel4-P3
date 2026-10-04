@@ -27,13 +27,63 @@ esac
 
 read -rp "Batas memori (contoh 1G, kosongkan untuk melewati): " MEMLIMIT
 
-read -rp "Jadwalkan backup mingguan? [y/N]: " DO_BACKUP
-if [ "${DO_BACKUP,,}" = "y" ]; then
-  read -rp "Nama folder proyek di home [project]: " PROJECT_DIR
-  PROJECT_DIR=${PROJECT_DIR:-project}
-fi
+while true; do
+  read -rp "Jadwalkan pembersihan log harian? [y/N]: " DO_LOG
+  case "${DO_LOG,,}" in
+    y|yes)
+      while true; do
+        read -rp "Jam pembersihan harian [03:00] (format HH:MM): " LOG_TIME
+        LOG_TIME=${LOG_TIME:-03:00}
+        if [[ "$LOG_TIME" =~ ^([01][0-9]|2[0-3]):[0-5][0-9]$ ]]; then
+          LOG_HOUR=${LOG_TIME%:*}
+          LOG_MINUTE=${LOG_TIME#*:}
+          break
+        fi
+        echo "Format jam tidak valid. Gunakan HH:MM, contoh 03:00."
+      done
+      break
+      ;;
+    n|no|"") break ;;
+    *) echo "Jawab dengan y/yes atau n/no." ;;
+  esac
+done
 
-read -rp "Jadwalkan pembersihan log harian? [y/N]: " DO_LOG
+while true; do
+  read -rp "Jadwalkan backup mingguan? [y/N]: " DO_BACKUP
+  case "${DO_BACKUP,,}" in
+    y|yes)
+      read -rp "Nama folder proyek di home [project]: " PROJECT_DIR
+      PROJECT_DIR=${PROJECT_DIR:-project}
+      while true; do
+        read -rp "Hari backup mingguan [Minggu/Sunday]: " BACKUP_DAY
+        case "${BACKUP_DAY,,}" in
+          ""|minggu|sunday) BACKUP_DOW=0; BACKUP_DAY_LABEL="Minggu" ;;
+          senin|monday) BACKUP_DOW=1; BACKUP_DAY_LABEL="Senin" ;;
+          selasa|tuesday) BACKUP_DOW=2; BACKUP_DAY_LABEL="Selasa" ;;
+          rabu|wednesday) BACKUP_DOW=3; BACKUP_DAY_LABEL="Rabu" ;;
+          kamis|thursday) BACKUP_DOW=4; BACKUP_DAY_LABEL="Kamis" ;;
+          jumat|friday) BACKUP_DOW=5; BACKUP_DAY_LABEL="Jumat" ;;
+          sabtu|saturday) BACKUP_DOW=6; BACKUP_DAY_LABEL="Sabtu" ;;
+          *) echo "Hari tidak valid. Gunakan Minggu-Sabtu."; continue ;;
+        esac
+        break
+      done
+      while true; do
+        read -rp "Jam backup mingguan [02:00] (format HH:MM): " BACKUP_TIME
+        BACKUP_TIME=${BACKUP_TIME:-02:00}
+        if [[ "$BACKUP_TIME" =~ ^([01][0-9]|2[0-3]):[0-5][0-9]$ ]]; then
+          BACKUP_HOUR=${BACKUP_TIME%:*}
+          BACKUP_MINUTE=${BACKUP_TIME#*:}
+          break
+        fi
+        echo "Format jam tidak valid. Gunakan HH:MM, contoh 02:00."
+      done
+      break
+      ;;
+    n|no|"") break ;;
+    *) echo "Jawab dengan y/yes atau n/no." ;;
+  esac
+done
 
 echo "[1/6] Memperbarui sistem..."
 sudo apt update && sudo apt upgrade -y
@@ -100,7 +150,7 @@ sudo cloudflared service install
 
 echo "[6/6] Menyiapkan maintenance..."
 
-if [ "${DO_BACKUP,,}" = "y" ]; then
+if [[ "${DO_BACKUP,,}" =~ ^(y|yes)$ ]]; then
   mkdir -p ~/"$PROJECT_DIR"
 
   cat > ~/backup-code-server.sh <<EOS
@@ -118,16 +168,16 @@ EOS
   chmod +x ~/backup-code-server.sh
 
   ( crontab -l 2>/dev/null | grep -v 'backup-code-server.sh' || true
-    echo "0 2 * * 0 $HOME/backup-code-server.sh" ) | crontab -
-  echo "Backup mingguan dijadwalkan (Minggu pukul 02.00)."
+    echo "$BACKUP_MINUTE $BACKUP_HOUR * * $BACKUP_DOW $HOME/backup-code-server.sh" ) | crontab -
+  echo "Backup mingguan dijadwalkan (${BACKUP_DAY_LABEL} pukul ${BACKUP_TIME})."
 else
   echo "Backup mingguan dilewati."
 fi
 
-if [ "${DO_LOG,,}" = "y" ]; then
+if [[ "${DO_LOG,,}" =~ ^(y|yes)$ ]]; then
   ( sudo crontab -l 2>/dev/null | grep -v 'journalctl --vacuum-time' || true
-    echo "0 3 * * * /usr/bin/journalctl --vacuum-time=14d" ) | sudo crontab -
-  echo "Pembersihan log harian dijadwalkan (pukul 03.00)."
+    echo "$LOG_MINUTE $LOG_HOUR * * * /usr/bin/journalctl --vacuum-time=14d" ) | sudo crontab -
+  echo "Pembersihan log harian dijadwalkan (pukul ${LOG_TIME})."
 else
   echo "Pembersihan log harian dilewati."
 fi
