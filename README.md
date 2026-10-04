@@ -1,4 +1,3 @@
-MD
 <div align="center">
   <img src="./images/logo.webp" alt="VS Code Logo" width="300">
   <h1>Aplikasi code-server</h1>
