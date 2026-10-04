@@ -216,3 +216,10 @@ Jika muncul pesan *System restart required*, jalankan `sudo reboot`.
 **code-server** akan aktif kembali secara otomatis karena layanannya sudah
 di-*enable* melalui systemd.
  
+## Referensi
+1. https://coder.com/docs/code-server/install
+2. https://github.com/coder/code-server
+3. https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/
+4. https://developers.cloudflare.com/cloudflare-one/applications/
+5. https://docs.gitlab.com/topics/cron/
+6. https://open-vsx.org
