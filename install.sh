@@ -9,7 +9,7 @@ fi
 
 PORT=8080
 
-read -rp "Masukkan hostname (contoh: code.namaanda.eu.org): " HOSTNAME_CF
+read -rp "Masukkan hostname (contoh: example.eu.org): " HOSTNAME_CF
 if [ -z "$HOSTNAME_CF" ]; then
   echo "Hostname tidak boleh kosong."
   exit 1
