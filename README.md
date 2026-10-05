@@ -1,6 +1,31 @@
-<div align="center">
+<section align="center">
   <img src="./images/code-server.svg" alt="code-server logo" width=500 style="margin-bottom: 2rem;"/>
-  <h1>Aplikasi code-server</h1>
+  <div align="center">
+    <h1>Aplikasi code-server</h1>
+    <p>Disusun oleh: </p>
+    <table align="center" style="margin-top: 1rem; text-align: left; border-collapse: collapse;">
+      <tr>
+        <td style="padding: 4px 12px; font-weight: bold;">Nama</td>
+        <td style="padding: 4px 12px;">NIM</td>
+      </tr>
+      <tr>
+        <td style="padding: 4px 12px; font-weight: bold;">M. Andhika Putra Pratama</td>
+        <td style="padding: 4px 12px;">M0403241055</td>
+      </tr>
+      <tr>
+        <td style="padding: 4px 12px; font-weight: bold;">Muhammad Hamdi Hakim</td>
+        <td style="padding: 4px 12px;">M0403241080</td>
+      </tr>
+      <tr>
+        <td style="padding: 4px 12px; font-weight: bold;">Dolisy Febriani Yurni</td>
+        <td style="padding: 4px 12px;">M0403241081</td>
+      </tr>
+      <tr>
+        <td style="padding: 4px 12px; font-weight: bold;">Julius Calvin Kurniadi</td>
+        <td style="padding: 4px 12px;">M0403241082</td>
+      </tr>
+    </table>
+  </div>
   <nav aria-label="Navigation">
     <a href="#sekilas-tentang">Sekilas Tentang</a> |
     <a href="#instalasi">Instalasi</a> |
@@ -11,7 +36,7 @@
     <a href="#pembahasan">Pembahasan</a> |
     <a href="#referensi">Referensi</a>
   </nav>
-</div>
+</section>
  
  
 ## Sekilas Tentang
