@@ -271,6 +271,7 @@ chmod +x install.sh
      - **Potensi masalah performa**, seperti latency jaringan, bandwidth, performa server, jumlah pengguna, dan proses yang sedang berjalan di server.
     
 ### Bandingkan dengan Aplikasi Sejenis
+Aplikasi sejenis yang kami gunakan adalah GitHub Codespaces dan Eclipse Theia. Berikut merupakan perbandingannya.
 
  
 ## Referensi
@@ -280,3 +281,4 @@ chmod +x install.sh
 4. https://developers.cloudflare.com/cloudflare-one/applications/
 5. https://docs.gitlab.com/topics/cron/
 6. https://open-vsx.org
+7. https://theia-ide.org/theia-platform
