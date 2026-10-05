@@ -256,8 +256,7 @@ chmod +x install.sh
 - Isi dengan data real/dummy (jangan kosongan) dan sertakan beberapa screenshot
 
 ## Pembahasan
-
-- Pendapat anda tentang aplikasi web ini
+### Pendapat Tentang Aplikasi Web Ini
   - Kelebihan
     1. **Dapat diakses melalui browser**. Penggunaan code-server cukup dilakukan dengan membuka browser dan mengakses alamat server, tidak perlu menginstall aplikasinya. Cocok digunakan di berbagai perangkat sehingga mendukung _remote development._
     2. **Environment lebih terpusat**. Administrator dapat menyiapkan satu environment development yang digunakan banyak pengguna dengan versi compiler, library, runtime, dan konfigurasi yang lebih konsisten. Hal ini dapat mengurangi masalah _works on my machine_.
@@ -271,7 +270,8 @@ chmod +x install.sh
     3. **Pengaturan awal lebih kompleks**. Code-server membutuhkan konfigurasi server, network, authentication, dan biasanya reverse proxy/HTTPS jika digunakan secara serius.
     4. **Potensi masalah performa**, seperti latency jaringan, bandwidth, performa server, jumlah pengguna, dan proses yang sedang berjalan di server.
     
-- Bandingkan dengan aplikasi web lain yang sejenis
+### Bandingkan dengan Aplikasi Sejenis
+
  
 ## Referensi
 1. https://coder.com/docs/code-server/install
