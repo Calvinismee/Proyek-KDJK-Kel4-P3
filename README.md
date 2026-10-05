@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./images/logo.webp" alt="VS Code Logo" width="300">
+  <img src="./images/code-server.svg" alt="code-server logo" width=500 style="margin-bottom: 2rem;"/>
   <h1>Aplikasi code-server</h1>
   <nav aria-label="Navigation">
     <a href="#sekilas-tentang">Sekilas Tentang</a> |
