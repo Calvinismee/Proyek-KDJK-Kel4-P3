@@ -255,24 +255,22 @@ chmod +x install.sh
 - Fungsi-fungsi utama
 - Isi dengan data real/dummy (jangan kosongan) dan sertakan beberapa screenshot
 
-## Pendapat Mengenai Code-Server
-### Kelebihan
-1. **Dapat diakses melalui browser**. Penggunaan code-server cukup dilakukan dengan membuka browser dan mengakses alamat server, tidak perlu menginstall aplikasinya. Cocok digunakan di berbagai perangkat sehingga mendukung _remote development._
-2. **Environment lebih terpusat**. Administrator dapat menyiapkan satu environment development yang digunakan banyak pengguna dengan versi compiler, library, runtime, dan konfigurasi yang lebih konsisten. Hal ini dapat mengurangi masalah _works on my machine_.
-3. **Lebih ringan di sisi server**. Klien hanya menjalankan browser sehingga beban komputasi utama berada pada server.
-4. **Antarmuka familiar bagi pengguna VS Code**. Code-server mendukung terminal, file explorer, editor, extensions, dan fitur development yang mirip dengan VS Code.
-5. **Dapat diintegrasikan dengan server/infrastruktur pribadi**. Code-server dapat dikombinasikan dengan autentikasi, reverse proxy, HTTPS, dan sistem manajemen pengguna.
-
-### Kekurangan
-1. **Membutuhkan Server**. Karena code-server berjalan di server, maka harus tersedia CPU, RAM, storage, dan jaringan yang memadai. Jika server tidak dapat diakses, development juga terganggu. Penggunaan resource juga berada di server.
-2. **Keamanan menjadi tanggung jawab administrator**. Jika server terbuka melalui internet, endpoint code-server harus diamankan. Autentikasi, HTTPS, firewall, akses pengguna, dan konfigurasi server perlu diperhatikan. Kesalahan konfigurasi dapat menyebabkan proyek/terminal terekspos.
-3. **Pengaturan awal lebih kompleks**. Code-server membutuhkan konfigurasi server, network, authentication, dan biasanya reverse proxy/HTTPS jika digunakan secara serius.
-4. **Potensi masalah performa**, seperti latency jaringan, bandwidth, performa server, jumlah pengguna, dan proses yang sedang berjalan di server.
-
 ## Pembahasan
+
 - Pendapat anda tentang aplikasi web ini
-  - kelebihan
-  - kekurangan
+  - Kelebihan
+    1. **Dapat diakses melalui browser**. Penggunaan code-server cukup dilakukan dengan membuka browser dan mengakses alamat server, tidak perlu menginstall aplikasinya. Cocok digunakan di berbagai perangkat sehingga mendukung _remote development._
+    2. **Environment lebih terpusat**. Administrator dapat menyiapkan satu environment development yang digunakan banyak pengguna dengan versi compiler, library, runtime, dan konfigurasi yang lebih konsisten. Hal ini dapat mengurangi masalah _works on my machine_.
+    3. **Lebih ringan di sisi server**. Klien hanya menjalankan browser sehingga beban komputasi utama berada pada server.
+    4. **Antarmuka familiar bagi pengguna VS Code**. Code-server mendukung terminal, file explorer, editor, extensions, dan fitur development yang mirip dengan VS Code.
+    5. **Dapat diintegrasikan dengan server/infrastruktur pribadi**. Code-server dapat dikombinasikan dengan autentikasi, reverse proxy, HTTPS, dan sistem manajemen pengguna.
+
+  - Kekurangan
+    1. **Membutuhkan Server**. Karena code-server berjalan di server, maka harus tersedia CPU, RAM, storage, dan jaringan yang memadai. Jika server tidak dapat diakses, development juga terganggu. Penggunaan resource juga berada di server.
+    2. **Keamanan menjadi tanggung jawab administrator**. Jika server terbuka melalui internet, endpoint code-server harus diamankan. Autentikasi, HTTPS, firewall, akses pengguna, dan konfigurasi server perlu diperhatikan. Kesalahan konfigurasi dapat menyebabkan proyek/terminal terekspos.
+    3. **Pengaturan awal lebih kompleks**. Code-server membutuhkan konfigurasi server, network, authentication, dan biasanya reverse proxy/HTTPS jika digunakan secara serius.
+    4. **Potensi masalah performa**, seperti latency jaringan, bandwidth, performa server, jumlah pengguna, dan proses yang sedang berjalan di server.
+    
 - Bandingkan dengan aplikasi web lain yang sejenis
  
 ## Referensi
