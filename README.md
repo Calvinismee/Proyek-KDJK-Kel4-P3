@@ -273,6 +273,70 @@ chmod +x install.sh
 ### Bandingkan dengan Aplikasi Sejenis
 Aplikasi sejenis yang kami gunakan adalah GitHub Codespaces dan Eclipse Theia. Berikut merupakan perbandingannya.
 
+<section align="center">
+  <table align="center" style="margin-top: 1rem; text-align: left; border-collapse: collapse;">
+      <tr>
+        <td style="padding: 4px 12px; font-weight: bold; align: center;">Aspek</td>
+        <td style="padding: 4px 12px;">Code-Server</td>
+        <td style="padding: 4px 12px;">GitHub Codespaces</td>
+        <td style="padding: 4px 12px;">Eclipse Theia</td>
+      </tr>
+      <tr>
+        <td style="padding: 4px 12px; font-weight: bold;">Pengembang</td>
+        <td style="padding: 4px 12px;">Coder</td>
+        <td style="padding: 4px 12px;">GitHub</td>
+        <td style="padding: 4px 12px;">Eclipse Foundation</td>
+      </tr>
+      <tr>
+        <td style="padding: 4px 12px; font-weight: bold;">Konsep utama</td>
+        <td style="padding: 4px 12px;">Menyerupai VS Code pada server dengan mengaksesnya melalui browser</td>
+        <td style="padding: 4px 12px;">Pengembangan berbasis cloud yang terintegrasi langsung dengan GitHub</td>
+        <td style="padding: 4px 12px;">Membangun IDE yang dapat dikustomisasi, terutama untuk web dan cloud</td>
+      </tr>
+      <tr>
+        <td style="padding: 4px 12px; font-weight: bold;">Model deployment</td>
+        <td style="padding: 4px 12px;">Self-hosted</td>
+        <td style="padding: 4px 12px;">Cloud-hosted</td>
+        <td style="padding: 4px 12px;">Self-hosted</td>
+      </tr>
+      <tr>
+        <td style="padding: 4px 12px; font-weight: bold;">Cara penggunaan</td>
+        <td style="padding: 4px 12px;">Membuka code-server di browser dan melakukan pengkodean di environment pada server</td>
+        <td style="padding: 4px 12px;">Membuat codespace dari repository GitHub, kemudian GitHub menyediakan environment development yang siap digunakan</td>
+        <td style="padding: 4px 12px;">Menggunakan Theia sebagai dasar untuk membangun dan menjalankan IDE</td>
+      </tr>
+      <tr>
+        <td style="padding: 4px 12px; font-weight: bold;">Kebutuhan server</td>
+        <td style="padding: 4px 12px;">Membutuhkan server yang dapat berupa server lokal, VM, cloud server, atau server organisasi</td>
+        <td style="padding: 4px 12px;">Tidak perlu menyediakan server pribadi karena environment sudah disediakan oleh GitHub</td>
+        <td style="padding: 4px 12px;">Membutuhkan infrastruktur sendiri jika digunakan secara self-hosted</td>
+      </tr>
+      <tr>
+        <td style="padding: 4px 12px; font-weight: bold;">Kustomisasi</td>
+        <td style="padding: 4px 12px;">Dapat dikonfigurasi dan ditambahkan extension</td>
+        <td style="padding: 4px 12px;">Dapat dikonfigurasi menggunakan development container dan konfigurasi repository, tetapi pengguna tidak memiliki kontrol penuh terhadap platform Codespaces</td>
+        <td style="padding: 4px 12px;">Dapat dikustomisasi karena Theia dirancang sebagai platform untuk membangun IDE dan development environment sendiri</td>
+      </tr>
+      <tr>
+        <td style="padding: 4px 12px; font-weight: bold;">Skalabilitas</td>
+        <td style="padding: 4px 12px;">Bergantung pada kemampuan server dan konfigurasi administrator. Ketika terdapat banyak pengguna, maka diperlukan pengelolaan resource yang baik</td>
+        <td style="padding: 4px 12px;">Lebih mudah diskalakan karena setiap Codespace dapat menggunakan environment cloud yang disediakan GitHub</td>
+        <td style="padding: 4px 12px;">Dapat dibuat skalabel, tetapi organisasi perlu merancang dan mengelola infrastrukturnya sendiri</td>
+      </tr>
+      <tr>
+        <td style="padding: 4px 12px; font-weight: bold;">Keamanan</td>
+        <td style="padding: 4px 12px;">Keamanan merupakan tanggung jawab administrator, terutama authentication, HTTPS, firewall, akses pengguna, dan keamanan server</td>
+        <td style="padding: 4px 12px;">Sebagian keamanan dikelola oleh GitHub, tetapi pengguna tetap bertanggung jawab terhadap kode, dependency, secrets, dan konfigurasi environment</td>
+        <td style="padding: 4px 12px;">Pada deployment sendiri, organisasi memiliki kontrol terhadap keamanan dan konfigurasinya</td>
+      </tr>
+      <tr>
+        <td style="padding: 4px 12px; font-weight: bold;">Biaya</td>
+        <td style="padding: 4px 12px;">Dapat digunakan tanpa biaya atau lisensi tertentu, tetapi organisasi tetap perlu menyediakan server, storage, bandwidth, dan pemeliharaan</td>
+        <td style="padding: 4px 12px;">Dapat menimbulkan biaya berdasarkan penggunaan compute, storage, atau resource lainnya</td>
+        <td style="padding: 4px 12px;">Platformnya merupakan open source, tetapi deployment tetap membutuhkan biaya infrastruktur dan pemeliharaan jika dijalankan sendiri</td>
+      </tr>
+    </table>
+</section>
  
 ## Referensi
 1. https://coder.com/docs/code-server/install
@@ -282,3 +346,4 @@ Aplikasi sejenis yang kami gunakan adalah GitHub Codespaces dan Eclipse Theia. B
 5. https://docs.gitlab.com/topics/cron/
 6. https://open-vsx.org
 7. https://theia-ide.org/theia-platform
+8. https://docs.github.com/en/codespaces
