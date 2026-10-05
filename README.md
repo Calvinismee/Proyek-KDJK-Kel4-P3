@@ -255,6 +255,14 @@ chmod +x install.sh
 - Fungsi-fungsi utama
 - Isi dengan data real/dummy (jangan kosongan) dan sertakan beberapa screenshot
 
+## Pendapat Mengenai Code-Server
+1. Kelebihan
+   - **Dapat diakses melalui browser**. Penggunaan code-server cukup dilakukan dengan membuka browser dan mengakses alamat server, tidak perlu menginstall aplikasinya. Cocok digunakan di berbagai perangkat sehingga mendukung _remote development._
+   - **Environment lebih terpusat**. Administrator dapat menyiapkan satu environment development yang digunakan banyak pengguna dengan versi compiler, library, runtime, dan konfigurasi yang lebih konsisten. Hal ini dapat mengurangi masalah _works on my machine_.
+   - **Lebih ringan di sisi server**. Klien hanya menjalankan browser sehingga beban komputasi utama berada pada server.
+   - **Antarmuka familiar bagi pengguna VS Code**. Code-server mendukung terminal, file explorer, editor, extensions, dan fitur development yang mirip dengan VS Code.
+   - **Dapat diintegrasikan dengan server/infrastruktur sendiri**. Code-server dapat dikombinasikan dengan autentikasi, reverse proxy, HTTPS, dan sistem manajemen pengguna.
+
 ## Pembahasan
 - Pendapat anda tentang aplikasi web ini
   - kelebihan
