@@ -270,7 +270,7 @@ chmod +x install.sh
      - **Pengaturan awal lebih kompleks**. Code-server membutuhkan konfigurasi server, network, authentication, dan biasanya reverse proxy/HTTPS jika digunakan secara serius.
      - **Potensi masalah performa**, seperti latency jaringan, bandwidth, performa server, jumlah pengguna, dan proses yang sedang berjalan di server.
     
-### Bandingkan dengan Aplikasi Sejenis
+### Perbandingan dengan Aplikasi Sejenis
 Aplikasi sejenis yang kami gunakan adalah GitHub Codespaces dan Eclipse Theia. Berikut merupakan perbandingannya.
 
 <section align="center">
@@ -337,7 +337,10 @@ Aplikasi sejenis yang kami gunakan adalah GitHub Codespaces dan Eclipse Theia. B
       </tr>
     </table>
 </section>
- 
+
+### Kesimpulan
+  Code-server lebih sesuai jika server dan environment menjadi prioritas, GitHub Codespaces lebih sesuai jika kemudahan penggunaan dan integrasi dengan GitHub menjadi prioritas, sedangkan Eclipse Theia digunakan ketika fleksibilitas dan pembuatan IDE/development menjadi prioritas utama.
+  
 ## Referensi
 1. https://coder.com/docs/code-server/install
 2. https://github.com/coder/code-server
