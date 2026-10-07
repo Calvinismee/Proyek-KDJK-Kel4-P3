@@ -252,9 +252,7 @@ chmod +x install.sh
 
 ## Cara Pemakaian
 code-server dipakai lewat browser, jadi tidak ada aplikasi yang perlu dipasang di sisi pengguna. Bagian ini menunjukkan alur pemakaian dari login sampai menjalankan proyek sederhana. Contoh data yang dipakai adalah proyek dummy `kdjk-demo` yang berisi daftar nilai mahasiswa.
- 
 ### 1. Login
- 
 1. Buka `https://<YOUR-DOMAIN>` di browser.
 2. Masukkan password yang sudah diatur di `~/.config/code-server/config.yaml`, lalu klik **SUBMIT**.
    ![Halaman login](./images/login.png)
@@ -264,10 +262,147 @@ code-server dipakai lewat browser, jadi tidak ada aplikasi yang perlu dipasang d
 ```
  
 ### 2. Mengenal Tampilan Aplikasi
- 
-Tampilannya sama dengan VS Code desktop.
- 
+Tampilannya mirip dengan VS Code desktop. 
 ![Tampilan utama code-server](./images/home-page.png)
+| Bagian | Fungsi |
+|---|---|
+| **Menu** (ikon ☰ paling atas di kiri) | Berisi menu File, Edit, Selection, View, Go, Run, Terminal, Help, dan **Sign out of code-server** |
+| **Activity Bar** (kolom ikon di kiri) | Berpindah antar panel: **Explorer**, **Search**, **Source Control**, **Run and Debug**, dan **Extensions** |
+| **Side Bar** | Isi panel yang sedang dipilih. Pada Explorer terdapat tombol **Open Folder** dan **Clone Repository**, serta bagian **Outline** dan **Timeline** di bawahnya |
+| **Editor** (tengah) | Tempat menulis dan mengedit file, termasuk halaman *Welcome*. Bisa membuka banyak tab sekaligus |
+| **Panel Chat** (kanan) | Panel asisten *Build with Agent*. Panel ini opsional dan bisa ditutup dengan tombol **X** atau disembunyikan lewat ikon layout di kanan atas |
+| **Panel** (bawah, muncul saat dibuka) | Terminal, Problems, Output, dan Debug Console |
+| **Akun dan Pengaturan** (kiri bawah) | Ikon akun dan ikon ⚙ untuk membuka *Settings* dan tema |
+| **Status Bar** (paling bawah) | Jumlah error dan warning, bahasa file, posisi kursor, dan branch Git |
+
+### 3. Fungsi-Fungsi Utama
+#### 3.1 Membuka Folder Proyek
+ 
+1. Klik tombol **Open Folder** pada panel Explorer, atau melalui menu ☰ → **File → Open Folder...** (`Ctrl+K Ctrl+O`).
+2. Pilih folder `/home/<username>/project`, lalu klik **OK**.
+3. Jika muncul pertanyaan *Do you trust the authors of the files in this folder?*, pilih **Yes, I trust the authors**.
+   ![Open Folder](./images/open-folder.png)
+
+#### 3.2 Membuat File dan Folder
+1. Pada panel **Explorer**, klik ikon **New Folder** lalu beri nama `kdjk-demo`.
+2. Klik kanan folder `kdjk-demo`, pilih **New File**, lalu buat dua file berikut.
+**`kdjk-demo/nilai.py`**
+```python
+mahasiswa = [
+    {"nama": "Andhika", "nim": "M0403241055", "nilai": 88},
+    {"nama": "Hamdi", "nim": "M0403241080", "nilai": 92},
+    {"nama": "Dolisy", "nim": "M0403241081", "nilai": 85},
+    {"nama": "Calvin", "nim": "M0403241082", "nilai": 90},
+]
+ 
+total = sum(m["nilai"] for m in mahasiswa)
+print("Daftar nilai:")
+for m in mahasiswa:
+    print(f"- {m['nim']} {m['nama']}: {m['nilai']}")
+print(f"Rata-rata kelompok: {total / len(mahasiswa):.2f}")
+```
+ 
+**`kdjk-demo/index.html`**
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>KDJK Demo</title>
+</head>
+<body>
+  <h1>Halo dari code-server!</h1>
+  <p>Halaman ini dibuat dan dijalankan dari browser.</p>
+</body>
+</html>
+```
+ 
+![Membuat file di Explorer](./images/create-file.png)
+
+#### 3.3 Menulis dan Mengedit Kode
+ 
+Editor mendukung *syntax highlighting*, *auto-complete*, dan penutupan tanda kurung otomatis. Beberapa fitur yang sering dipakai:
+ 
+- **Command Palette**: tekan `F1` (atau `Ctrl+Shift+P`) untuk mencari semua perintah.
+- **Cari di file**: `Ctrl+F`. **Cari di seluruh proyek**: `Ctrl+Shift+F` (ikon Search).
+- **Format ulang kode**: `Shift+Alt+F`.
+- **Simpan**: `Ctrl+S`.
+> Beberapa pintasan seperti `Ctrl+W` atau `Ctrl+N` dipakai oleh browser. Jika bentrok, gunakan Command Palette (`F1`).
+ 
+![Editor dengan syntax highlighting](./images/editor-2.png)
+
+#### 3.4 Menggunakan Terminal Terintegrasi
+ 
+1. Buka terminal dengan menu ☰ → **Terminal → New Terminal** (atau `` Ctrl+` ``).
+2. Jalankan skrip Python contoh:
+```bash
+   cd ~/project/kdjk-demo
+   python3 nilai.py
+```
+3. Hasil yang muncul:
+```
+   Daftar nilai:
+   - M0403241055 Andhika: 88
+   - M0403241080 Hamdi: 92
+   - M0403241081 Dolisy: 85
+   - M0403241082 Calvin: 90
+   Rata-rata kelompok: 88.75
+```
+ 
+   ![Terminal terintegrasi](./images/terminal.png)
+ 
+Terminal ini berjalan di server, sehingga semua perintah (`apt`, `git`, `python3`, `node`, dan lain-lain) dijalankan di server, bukan di perangkat pengguna.
+
+#### 3.5 Menjalankan Web dan Melihat Hasilnya (Port Proxy)
+ 
+code-server dapat meneruskan port aplikasi yang berjalan di server lewat alamat `/proxy/<port>/`.
+ 
+1. Di terminal, jalankan web server sederhana pada port 3000:
+```bash
+   cd ~/project/kdjk-demo
+   python3 -m http.server 3000
+```
+2. Buka tab baru di browser dan akses:
+```
+   https://<YOUR-DOMAIN>/proxy/3000/
+```
+3. Halaman `index.html` akan tampil. Tekan `Ctrl+C` di terminal untuk menghentikan server.
+   ![Preview aplikasi lewat proxy](./images/pemakaian/proxy-preview.png)
+   
+#### 3.6 Upload dan Download File
+- **Upload**: seret (*drag and drop*) file dari komputer ke panel Explorer. File akan tersimpan di server.
+- **Download**: klik kanan file atau folder di Explorer, lalu pilih **Download...**.
+![Upload dan download file](./images/upload.png)
+ 
+#### 3.7 Memasang Ekstensi
+ 
+1. Klik ikon **Extensions** pada Activity Bar (atau `Ctrl+Shift+X`).
+2. Cari ekstensi, misalnya `Python` atau `Markdown All in One`, lalu klik **Install**.
+3. Ekstensi berasal dari registry Open VSX. Jika tidak ditemukan, ekstensi tersebut kemungkinan hanya tersedia di Microsoft Marketplace.
+![Panel Extensions](./images/pemakaian/extensions.png)
+ 
+#### 3.8 Menggunakan Git (Source Control)
+ 
+1. Pastikan Git terpasang. Jika belum:
+```bash
+   sudo apt install -y git
+   git config --global user.name "Nama Anda"
+   git config --global user.email "email@contoh.com"
+```
+2. Klik ikon **Source Control** pada Activity Bar, lalu klik **Initialize Repository**.
+3. Pada daftar *Changes*, klik **+** untuk men-*stage* file, tulis pesan commit (misalnya `Tambah nilai.py dan index.html`), lalu klik **Commit**.
+![Source Control](./images/source-control.png)
+ 
+#### 3.9 Mengubah Tema dan Pengaturan
+ 
+- Ganti tema warna: `Ctrl+K Ctrl+T`.
+- Buka pengaturan: ikon ⚙ di kiri bawah Activity Bar → **Settings**, misalnya untuk mengubah ukuran font atau mengaktifkan *auto save*.
+![Pengaturan dan tema](./images/theme.png)
+ 
+### 4. Logout dan Menutup Sesi
+ 
+Klik ikon ☰ → **Sign out of code-server**. Layanan code-server tetap berjalan di server, sehingga proyek dan terminal dapat dibuka kembali kapan saja dengan login ulang.
+
 
 ## Pembahasan
 ### Pendapat Tentang Aplikasi Web Ini
