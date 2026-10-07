@@ -286,6 +286,7 @@ Tampilannya mirip dengan VS Code desktop.
 #### 3.2 Membuat File dan Folder
 1. Pada panel **Explorer**, klik ikon **New Folder** lalu beri nama `kdjk-demo`.
 2. Klik kanan folder `kdjk-demo`, pilih **New File**, lalu buat dua file berikut.
+
 **`kdjk-demo/nilai.py`**
 ```python
 mahasiswa = [
