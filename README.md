@@ -367,7 +367,7 @@ code-server dapat meneruskan port aplikasi yang berjalan di server lewat alamat 
    https://<YOUR-DOMAIN>/proxy/3000/
 ```
 3. Halaman `index.html` akan tampil. Tekan `Ctrl+C` di terminal untuk menghentikan server.
-   ![Preview aplikasi lewat proxy](./images/pemakaian/proxy-preview.png)
+   ![Preview aplikasi lewat proxy](./images/proxy-preview.png)
    
 #### 3.6 Upload dan Download File
 - **Upload**: seret (*drag and drop*) file dari komputer ke panel Explorer. File akan tersimpan di server.
@@ -379,7 +379,7 @@ code-server dapat meneruskan port aplikasi yang berjalan di server lewat alamat 
 1. Klik ikon **Extensions** pada Activity Bar (atau `Ctrl+Shift+X`).
 2. Cari ekstensi, misalnya `Python` atau `Markdown All in One`, lalu klik **Install**.
 3. Ekstensi berasal dari registry Open VSX. Jika tidak ditemukan, ekstensi tersebut kemungkinan hanya tersedia di Microsoft Marketplace.
-![Panel Extensions](./images/pemakaian/extensions.png)
+![Panel Extensions](./images/extensions.png)
  
 #### 3.8 Menggunakan Git (Source Control)
  
