@@ -251,9 +251,23 @@ chmod +x install.sh
 ```
 
 ## Cara Pemakaian
-- Tampilan aplikasi web
-- Fungsi-fungsi utama
-- Isi dengan data real/dummy (jangan kosongan) dan sertakan beberapa screenshot
+code-server dipakai lewat browser, jadi tidak ada aplikasi yang perlu dipasang di sisi pengguna. Bagian ini menunjukkan alur pemakaian dari login sampai menjalankan proyek sederhana. Contoh data yang dipakai adalah proyek dummy `kdjk-demo` yang berisi daftar nilai mahasiswa.
+ 
+### 1. Login
+ 
+1. Buka `https://<YOUR-DOMAIN>` di browser.
+2. Masukkan password yang sudah diatur di `~/.config/code-server/config.yaml`, lalu klik **SUBMIT**.
+   ![Halaman login](./images/login.png)
+3. Setelah berhasil, tampil halaman *Welcome* code-server. Jika lupa password, lihat kembali isi `config.yaml` di server:
+```bash
+   cat ~/.config/code-server/config.yaml
+```
+ 
+### 2. Mengenal Tampilan Aplikasi
+ 
+Tampilannya sama dengan VS Code desktop.
+ 
+![Tampilan utama code-server](./images/home-page.png)
 
 ## Pembahasan
 ### Pendapat Tentang Aplikasi Web Ini
