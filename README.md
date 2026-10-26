@@ -447,7 +447,7 @@ Aplikasi sejenis yang kami gunakan adalah GitHub Codespaces dan Eclipse Theia. B
         <td style="padding: 4px 12px; font-weight: bold;">Model deployment</td>
         <td style="padding: 4px 12px;">Self-hosted</td>
         <td style="padding: 4px 12px;">Cloud-hosted</td>
-        <td style="padding: 4px 12px;">Self-hosted</td>
+        <td style="padding: 4px 12px;">Self-hosted atau Cloud-hosted</td>
       </tr>
       <tr>
         <td style="padding: 4px 12px; font-weight: bold;">Cara penggunaan</td>
